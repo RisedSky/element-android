@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:id="@+id/server_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/discord_server_icon_bg"
+        android:scaleType="center"
+        android:contentDescription="Server"
+        tools:src="@drawable/ic_home" />
+
+    <!-- Unread indicator -->
+    <View
+        android:id="@+id/server_unread_indicator"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/discord_server_icon_bg"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>
