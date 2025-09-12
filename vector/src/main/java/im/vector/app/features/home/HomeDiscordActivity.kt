@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.withResumed
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.mvrx.Mavericks
 import com.airbnb.mvrx.viewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -79,6 +80,7 @@ import im.vector.app.features.sync.InitSyncStepFormatter
 import im.vector.app.features.notifications.NotificationPermissionManager
 import im.vector.app.features.home.HomeSharedActionViewModel
 import im.vector.app.features.home.ShortcutsHandler
+import im.vector.app.features.home.discord.*
 import im.vector.app.nightlies.NightlyProxy
 import org.matrix.android.sdk.api.failure.GlobalError
 import im.vector.app.features.workers.signout.ServerBackupStatusViewModel
@@ -136,6 +138,9 @@ class HomeDiscordActivity :
     @Inject lateinit var nightlyProxy: NightlyProxy
     @Inject lateinit var notificationPermissionManager: NotificationPermissionManager
 
+    private lateinit var serverAdapter: DiscordServerAdapter
+    private lateinit var channelAdapter: DiscordChannelAdapter
+
     companion object {
         fun newIntent(context: Context,
                       clearNotification: Boolean = false,
@@ -173,7 +178,7 @@ class HomeDiscordActivity :
         // Setup server list
         setupServerList()
         
-        // Setup channel list
+        // Setup channel list  
         setupChannelList()
         
         // Setup user panel
@@ -184,26 +189,44 @@ class HomeDiscordActivity :
     }
 
     private fun setupServerList() {
+        // Setup adapters
+        serverAdapter = DiscordServerAdapter(avatarRenderer) { server ->
+            handleServerClick(server)
+        }
+        
+        views.discordServersRecycler.layoutManager = LinearLayoutManager(this)
+        views.discordServersRecycler.adapter = serverAdapter
+        
         // Setup home button click
         views.discordHomeButton.setOnClickListener {
-            // Navigate to home/DMs
+            navigateToHome()
         }
         
         // Setup add server button click
         views.discordAddServerButton.setOnClickListener {
-            // Show add server dialog
+            showAddServerDialog()
         }
         
-        // TODO: Setup RecyclerView for server list
+        // Load mock server data
+        loadMockServers()
     }
 
     private fun setupChannelList() {
-        // Setup server header click
-        views.discordServerHeader.setOnClickListener {
-            // Show server dropdown menu
+        // Setup adapter
+        channelAdapter = DiscordChannelAdapter { channel ->
+            handleChannelClick(channel)
         }
         
-        // TODO: Setup RecyclerView for channels
+        views.discordChannelsRecycler.layoutManager = LinearLayoutManager(this)
+        views.discordChannelsRecycler.adapter = channelAdapter
+        
+        // Setup server header click
+        views.discordServerHeader.setOnClickListener {
+            showServerDropdown()
+        }
+        
+        // Load mock channel data
+        loadMockChannels()
     }
 
     private fun setupUserPanel() {
@@ -212,19 +235,190 @@ class HomeDiscordActivity :
             navigator.openSettings(this)
         }
         
-        // TODO: Setup user avatar and status
+        // Setup user avatar and status
+        setupUserAvatarAndStatus()
     }
 
     private fun setupMainPanelHeader() {
         // Setup search button
         views.discordChannelSearch.setOnClickListener {
-            // Open search
+            openSearch()
         }
         
         // Setup members button
         views.discordChannelMembers.setOnClickListener {
-            // Show members list
+            showMembersList()
         }
+    }
+
+    private fun loadMockServers() {
+        val mockServers = listOf(
+            DiscordServer("1", "Main Server", null, true, 3, true),
+            DiscordServer("2", "Gaming", null, false, 0, false),
+            DiscordServer("3", "Work", null, false, 1, true),
+            DiscordServer("4", "Friends", null, false, 0, false)
+        )
+        serverAdapter.submitList(mockServers)
+    }
+
+    private fun loadMockChannels() {
+        val mockChannels = listOf(
+            DiscordChannel("cat1", "Text Channels", ChannelType.CATEGORY, false, 0, false, true),
+            DiscordChannel("1", "general", ChannelType.TEXT, true, 0, false),
+            DiscordChannel("2", "announcements", ChannelType.TEXT, false, 2, true),
+            DiscordChannel("3", "random", ChannelType.TEXT, false, 0, false),
+            DiscordChannel("cat2", "Voice Channels", ChannelType.CATEGORY, false, 0, false, true),
+            DiscordChannel("4", "General", ChannelType.VOICE, false, 0, false),
+            DiscordChannel("5", "Gaming", ChannelType.VOICE, false, 0, false)
+        )
+        channelAdapter.submitList(mockChannels)
+    }
+
+    private fun setupUserAvatarAndStatus() {
+        views.discordUsername.text = "User"
+        views.discordUserStatus.text = "Online"
+        
+        // Load user avatar - placeholder for now
+        views.discordUserAvatar.setImageResource(R.drawable.ic_person)
+    }
+
+    private fun handleServerClick(server: DiscordServer) {
+        views.discordServerName.text = server.name
+        
+        // Update selected state
+        val currentList = serverAdapter.currentList.toMutableList()
+        for (i in currentList.indices) {
+            currentList[i] = currentList[i].copy(isSelected = currentList[i].id == server.id)
+        }
+        serverAdapter.submitList(currentList)
+        
+        // Load channels for this server
+        loadMockChannels()
+    }
+
+    private fun handleChannelClick(channel: DiscordChannel) {
+        if (channel.type == ChannelType.CATEGORY) {
+            // Handle category expand/collapse
+            return
+        }
+        
+        views.discordChannelName.text = channel.name
+        
+        // Update selected state
+        val currentList = channelAdapter.currentList.toMutableList()
+        for (i in currentList.indices) {
+            if (!currentList[i].isCategory) {
+                currentList[i] = currentList[i].copy(isSelected = currentList[i].id == channel.id)
+            }
+        }
+        channelAdapter.submitList(currentList)
+    }
+
+    private fun navigateToHome() {
+        views.discordChannelName.text = "All Chats"
+        views.discordServerName.text = "Element"
+        
+        // Clear server selection
+        val currentList = serverAdapter.currentList.toMutableList()
+        for (i in currentList.indices) {
+            currentList[i] = currentList[i].copy(isSelected = false)
+        }
+        serverAdapter.submitList(currentList)
+    }
+
+    private fun showAddServerDialog() {
+        val dialog = DiscordAddServerDialog(this,
+            onJoinServer = { inviteCode ->
+                handleJoinServer(inviteCode)
+            },
+            onCreateServer = {
+                handleCreateServer()
+            }
+        )
+        dialog.show()
+    }
+
+    private fun showServerDropdown() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Server Options")
+            .setItems(arrayOf("Server Settings", "Create Invite", "Leave Server")) { _, which ->
+                when (which) {
+                    0 -> handleServerSettings()
+                    1 -> handleCreateInvite()
+                    2 -> handleLeaveServer()
+                }
+            }
+            .show()
+    }
+
+    private fun openSearch() {
+        val dialog = DiscordSearchDialog(this,
+            onSearchQuery = { query ->
+                // Handle search query
+                Timber.d("Search query: $query")
+            },
+            onItemClick = { result ->
+                handleSearchResult(result)
+            }
+        )
+        dialog.show()
+    }
+
+    private fun showMembersList() {
+        val dialog = DiscordMembersDialog(this) { member ->
+            handleMemberClick(member)
+        }
+        dialog.show()
+    }
+
+    private fun handleJoinServer(inviteCode: String) {
+        // Handle joining server with invite code
+        Timber.d("Joining server with code: $inviteCode")
+        // Add to server list
+        val currentList = serverAdapter.currentList.toMutableList()
+        currentList.add(DiscordServer("new_${System.currentTimeMillis()}", "New Server", null, false, 0, false))
+        serverAdapter.submitList(currentList)
+    }
+
+    private fun handleCreateServer() {
+        // Handle creating new server
+        Timber.d("Creating new server")
+        val currentList = serverAdapter.currentList.toMutableList()
+        currentList.add(DiscordServer("created_${System.currentTimeMillis()}", "My Server", null, false, 0, false))
+        serverAdapter.submitList(currentList)
+    }
+
+    private fun handleServerSettings() {
+        Timber.d("Server settings clicked")
+    }
+
+    private fun handleCreateInvite() {
+        Timber.d("Create invite clicked")
+    }
+
+    private fun handleLeaveServer() {
+        Timber.d("Leave server clicked")
+    }
+
+    private fun handleSearchResult(result: SearchResult) {
+        when (result.type) {
+            SearchType.CHANNEL -> {
+                views.discordChannelName.text = result.name
+            }
+            SearchType.USER -> {
+                // Navigate to DM with user
+                Timber.d("Opening DM with ${result.name}")
+            }
+            SearchType.MESSAGE -> {
+                // Navigate to message
+                Timber.d("Navigating to message: ${result.name}")
+            }
+        }
+    }
+
+    private fun handleMemberClick(member: DiscordMember) {
+        Timber.d("Member clicked: ${member.name}")
+        // Open user profile or start DM
     }
 
     override fun handleInvalidToken(globalError: GlobalError.InvalidToken) {

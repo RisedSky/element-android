@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/discord_main_panel_bg"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add a Server"
+            android:textColor="@color/discord_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/discord_add_server_close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_close_24dp"
+            android:background="?selectableItemBackgroundBorderless"
+            app:tint="@color/discord_text_secondary" />
+
+    </LinearLayout>
+
+    <!-- Options -->
+    <LinearLayout
+        android:id="@+id/discord_add_server_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Join Server Option -->
+        <LinearLayout
+            android:id="@+id/discord_join_server_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_add"
+                app:tint="@color/discord_accent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Join a Server"
+                    android:textColor="@color/discord_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Enter an invite below to join an existing server"
+                    android:textColor="@color/discord_text_secondary"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Create Server Option -->
+        <LinearLayout
+            android:id="@+id/discord_create_server_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_add"
+                app:tint="@color/discord_accent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Create My Own"
+                    android:textColor="@color/discord_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Create a new server and invite your friends"
+                    android:textColor="@color/discord_text_secondary"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Join Server Input (Hidden by default) -->
+    <LinearLayout
+        android:id="@+id/discord_join_server_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Invite Link"
+            android:textColor="@color/discord_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/discord_server_invite_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="https://discord.gg/hTKzmak"
+            android:textColor="@color/discord_text_primary"
+            android:textColorHint="@color/discord_text_muted"
+            android:background="@drawable/bg_composer_edit_text"
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+
+    <!-- Join Server Buttons (Hidden by default) -->
+    <LinearLayout
+        android:id="@+id/discord_join_server_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/discord_join_server_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/discord_text_secondary"
+            android:background="?selectableItemBackground"
+            android:layout_marginEnd="8dp"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+
+        <Button
+            android:id="@+id/discord_join_server_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Join Server"
+            android:textColor="@color/discord_text_primary"
+            android:backgroundTint="@color/discord_accent"
+            style="@style/Widget.AppCompat.Button" />
+
+    </LinearLayout>
+
+</LinearLayout>

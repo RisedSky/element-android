@@ -2,6 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/discord_channel_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="1dp"
+    android:paddingBottom="1dp"
+    android:background="?selectableItemBackground"
+    android:minHeight="32dp">
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/discord_channel_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -15,7 +32,7 @@
 
     <!-- Channel type icon -->
     <ImageView
-        android:id="@+id/channel_icon"
+        android:id="@+id/discord_channel_icon"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginEnd="8dp"
@@ -25,7 +42,7 @@
 
     <!-- Channel name -->
     <TextView
-        android:id="@+id/channel_name"
+        android:id="@+id/discord_channel_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -38,7 +55,7 @@
 
     <!-- Unread badge -->
     <TextView
-        android:id="@+id/channel_unread_badge"
+        android:id="@+id/discord_channel_unread"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
@@ -54,5 +71,7 @@
         android:visibility="gone"
         tools:visibility="visible"
         tools:text="5" />
+
+</LinearLayout>
 
 </LinearLayout>
