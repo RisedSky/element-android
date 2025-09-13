@@ -318,6 +318,10 @@
             android:supportsPictureInPicture="true" />
 
         <activity android:name=".features.pin.PinActivity" />
+        <activity 
+            android:name=".features.home.HomeDiscordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".features.analytics.ui.consent.AnalyticsOptInActivity" />
         <activity android:name=".features.home.room.detail.search.SearchActivity" />
         <activity android:name=".features.usercode.UserCodeActivity" />

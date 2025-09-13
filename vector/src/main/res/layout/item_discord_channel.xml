@@ -14,22 +14,6 @@
     android:background="?selectableItemBackground"
     android:minHeight="32dp">
 
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/discord_channel_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingTop="1dp"
-    android:paddingBottom="1dp"
-    android:background="?selectableItemBackground"
-    android:minHeight="32dp">
-
     <!-- Channel type icon -->
     <ImageView
         android:id="@+id/discord_channel_icon"
@@ -71,7 +55,5 @@
         android:visibility="gone"
         tools:visibility="visible"
         tools:text="5" />
-
-</LinearLayout>
 
 </LinearLayout>
