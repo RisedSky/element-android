@@ -1,177 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Discord-style channel list drawer -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground"
+    android:orientation="vertical"
+    android:background="@color/discord_channel_panel_bg"
     android:clickable="true"
     android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Discord-style Server Header -->
+    <LinearLayout
         android:id="@+id/homeDrawerHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/homeDrawerHeaderAvatarView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="@dimen/layout_horizontal_margin"
-            android:layout_marginTop="24dp"
-            android:importantForAccessibility="no"
-            android:transitionName="profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@sample/user_round_avatars" />
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="@color/discord_server_header_bg"
+        android:elevation="2dp">
 
         <TextView
             android:id="@+id/homeDrawerUsernameView"
-            style="@style/Widget.Vector.TextView.Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:maxLines="1"
+            android:layout_weight="1"
+            android:text="Element"
+            android:textColor="@color/discord_text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:singleLine="true"
-            android:textColor="?vctr_content_primary"
-            app:layout_constraintBottom_toTopOf="@id/homeDrawerUserIdView"
-            app:layout_constraintEnd_toStartOf="@id/homeDrawerQRCodeButton"
-            app:layout_constraintStart_toEndOf="@id/homeDrawerHeaderAvatarView"
-            app:layout_constraintTop_toTopOf="@id/homeDrawerHeaderAvatarView"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="@sample/users.json/data/displayName" />
-
-        <TextView
-            android:id="@+id/homeDrawerUserIdView"
-            style="@style/Widget.Vector.TextView.Caption"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="?vctr_content_secondary"
-            app:layout_constraintBottom_toBottomOf="@id/homeDrawerHeaderAvatarView"
-            app:layout_constraintEnd_toStartOf="@id/homeDrawerQRCodeButton"
-            app:layout_constraintStart_toStartOf="@id/homeDrawerUsernameView"
-            app:layout_constraintTop_toBottomOf="@id/homeDrawerUsernameView"
-            tools:text="@sample/users.json/data/id" />
+            android:ellipsize="end"
+            tools:text="Element Server" />
 
         <ImageView
             android:id="@+id/homeDrawerQRCodeButton"
-            android:layout_width="@dimen/layout_touch_size"
-            android:layout_height="@dimen/layout_touch_size"
-            android:layout_marginEnd="@dimen/layout_horizontal_margin"
-            android:contentDescription="@string/qr_code"
-            android:rotationY="@integer/rtl_mirror_flip"
-            android:scaleType="center"
-            android:src="@drawable/ic_qr_code_add"
-            app:layout_constraintBottom_toBottomOf="@id/homeDrawerHeaderAvatarView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/homeDrawerHeaderAvatarView"
-            app:tint="?vctr_content_tertiary"
-            tools:ignore="MissingPrefix" />
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_arrow_drop_down"
+            app:tint="@color/discord_text_primary" />
 
-        <Button
-            android:id="@+id/homeDrawerInviteFriendButton"
-            style="@style/Widget.Vector.Button.Text"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:padding="0dp"
-            android:text="@string/invite_friends"
-            android:textAllCaps="false"
-            app:icon="@drawable/ic_share"
-            app:iconGravity="textStart"
-            app:iconSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/homeDrawerHeaderAvatarView"
-            app:layout_constraintTop_toBottomOf="@id/homeDrawerHeaderAvatarView"
-            tools:ignore="MissingPrefix" />
+    </LinearLayout>
 
-        <ImageView
-            android:id="@+id/homeDrawerHeaderDebugView"
-            style="@style/VectorDebug"
-            android:layout_width="@dimen/layout_touch_size"
-            android:layout_height="@dimen/layout_touch_size"
-            android:importantForAccessibility="no"
-            android:scaleType="center"
-            android:src="@drawable/ic_settings_x"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="?colorPrimary"
-            tools:ignore="MissingPrefix" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/homeDrawerHeaderSeparator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?vctr_list_separator"
-        app:layout_constraintTop_toBottomOf="@id/homeDrawerHeader" />
-
+    <!-- Channels Container -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/homeDrawerGroupListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="16dp" />
+
+    <!-- Discord-style User Panel -->
+    <LinearLayout
+        android:id="@+id/discord_user_panel"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:background="@color/discord_user_panel_bg">
+
+        <ImageView
+            android:id="@+id/homeDrawerHeaderAvatarView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/discord_user_avatar_bg"
+            android:scaleType="center"
+            tools:src="@sample/user_round_avatars" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/homeDrawerUsernameViewUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Username"
+                android:textColor="@color/discord_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                tools:text="@sample/users.json/data/displayName" />
+
+            <TextView
+                android:id="@+id/homeDrawerUserIdView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Online"
+                android:textColor="@color/discord_text_secondary"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                tools:text="Online" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/homeDrawerHeaderSettingsView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_settings"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="Settings"
+            app:tint="@color/discord_text_secondary" />
+
+    </LinearLayout>
+
+    <!-- Hidden elements for compatibility -->
+    <View
+        android:id="@+id/homeDrawerHeaderSeparator"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/homeDrawerBottomSeparator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeDrawerHeaderSeparator" />
+        android:visibility="gone" />
 
     <View
         android:id="@+id/homeDrawerBottomSeparator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?vctr_list_separator"
-        app:layout_constraintBottom_toTopOf="@id/homeDrawerHeaderSettingsView" />
-
-    <TextView
-        android:id="@+id/homeDrawerHeaderSettingsView"
-        style="@style/Widget.Vector.TextView.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:drawablePadding="9dp"
-        android:gravity="center_vertical"
-        android:minWidth="120dp"
-        android:minHeight="52dp"
-        android:padding="16dp"
-        android:text="@string/settings"
-        app:drawableStartCompat="@drawable/ic_settings_18dp"
-        app:drawableTint="?vctr_content_secondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:tint="?vctr_content_secondary"
-        tools:ignore="MissingPrefix" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/homeDrawerHeaderSignoutView"
-        style="@style/Widget.Vector.TextView.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:drawablePadding="9dp"
-        android:gravity="center_vertical"
-        android:minWidth="120dp"
-        android:minHeight="52dp"
-        android:padding="16dp"
-        android:text="@string/logout"
-        app:drawableStartCompat="@drawable/ic_signout_18dp"
-        app:drawableTint="?vctr_content_secondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="?vctr_content_secondary"
-        tools:ignore="MissingPrefix" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/homeDrawerInviteFriendButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/homeDrawerHeaderDebugView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
+
+</LinearLayout>
