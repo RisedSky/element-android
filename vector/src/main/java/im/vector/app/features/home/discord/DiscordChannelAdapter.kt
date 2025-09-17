@@ -62,7 +62,7 @@ class DiscordChannelAdapter(
                     binding.discordChannelIcon.visibility = android.view.View.VISIBLE
                 }
                 ChannelType.VOICE -> {
-                    binding.discordChannelIcon.setImageResource(im.vector.app.R.drawable.ic_voice_broadcast)
+                    binding.discordChannelIcon.setImageResource(im.vector.app.R.drawable.ic_voice_broadcast_mic)
                     binding.discordChannelIcon.visibility = android.view.View.VISIBLE
                 }
                 ChannelType.CATEGORY -> {

@@ -137,6 +137,7 @@ class HomeDiscordActivity :
     @Inject lateinit var unifiedPushHelper: UnifiedPushHelper
     @Inject lateinit var nightlyProxy: NightlyProxy
     @Inject lateinit var notificationPermissionManager: NotificationPermissionManager
+    @Inject lateinit var navigator: Navigator
 
     private lateinit var serverAdapter: DiscordServerAdapter
     private lateinit var channelAdapter: DiscordChannelAdapter
